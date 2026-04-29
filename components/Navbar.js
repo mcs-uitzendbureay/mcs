@@ -35,26 +35,16 @@ export default function Navbar() {
       <nav className="container-xl" aria-label="Hoofdnavigatie">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ${
-              isScrolled
-                ? 'bg-dark-950'
-                : 'bg-white/10 backdrop-blur-sm border border-white/20'
-            }`}>
-              <span className="font-display font-bold text-xl text-white">M</span>
-            </div>
-            <div className="flex flex-col">
-              <span className={`text-lg font-display font-bold leading-tight transition-colors duration-300 ${
-                isScrolled ? 'text-dark-950' : 'text-white'
-              }`}>
-                MCS
-              </span>
-              <span className={`text-[11px] font-medium tracking-wide uppercase transition-colors duration-300 ${
-                isScrolled ? 'text-dark-400' : 'text-white/60'
-              }`}>
-                Uitzendbureau
-              </span>
-            </div>
+          <Link href="/" className="block group" aria-label="MCS Uitzendbureau home">
+            <img
+              src="/logo.png"
+              srcSet="/logo.png 1x, /logo@2x.png 2x"
+              alt="MCS Uitzendbureau"
+              width={109}
+              height={40}
+              className="h-9 w-auto md:h-10 transition-all duration-300"
+              style={{ filter: isScrolled ? 'none' : 'brightness(0) invert(1)' }}
+            />
           </Link>
 
           {/* Desktop Navigation */}

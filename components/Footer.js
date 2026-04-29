@@ -29,14 +29,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16 border-b border-white/10">
           {/* Brand Column */}
           <div className="lg:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
-                <span className="text-dark-950 font-display font-bold text-2xl">M</span>
-              </div>
-              <div>
-                <span className="text-xl font-display font-bold text-white">MCS</span>
-                <span className="text-sm text-dark-400 ml-2">Uitzendbureau</span>
-              </div>
+            <Link href="/" className="block mb-6" aria-label="MCS Uitzendbureau home">
+              <img
+                src="/logo.png"
+                srcSet="/logo.png 1x, /logo@2x.png 2x"
+                alt="MCS Uitzendbureau"
+                width={130}
+                height={48}
+                className="h-12 w-auto"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
             </Link>
             <p className="text-dark-400 leading-relaxed max-w-sm">
               Uw betrouwbare partner voor uitzenden, detachering en werving & selectie.
