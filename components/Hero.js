@@ -1,15 +1,67 @@
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 
 export default function Hero() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Forceer alle benodigde attributen imperatief — sommige mobiele
+    // browsers checken de DOM-attributen, niet de React-props.
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+
+    const tryPlay = () => {
+      const p = video.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    };
+
+    tryPlay();
+
+    const onCanPlay = () => tryPlay();
+    const onLoadedData = () => tryPlay();
+    const onInteract = () => tryPlay();
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') tryPlay();
+    };
+
+    video.addEventListener('canplay', onCanPlay);
+    video.addEventListener('loadeddata', onLoadedData);
+    document.addEventListener('touchstart', onInteract, { passive: true });
+    document.addEventListener('click', onInteract);
+    document.addEventListener('scroll', onInteract, { passive: true });
+    document.addEventListener('keydown', onInteract);
+    document.addEventListener('visibilitychange', onVisible);
+
+    return () => {
+      video.removeEventListener('canplay', onCanPlay);
+      video.removeEventListener('loadeddata', onLoadedData);
+      document.removeEventListener('touchstart', onInteract);
+      document.removeEventListener('click', onInteract);
+      document.removeEventListener('scroll', onInteract);
+      document.removeEventListener('keydown', onInteract);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0">
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
+          preload="auto"
+          disableRemotePlayback
           className="absolute inset-0 w-full h-full object-cover"
           poster="/images/hero-large.jpg"
         >
@@ -99,14 +151,6 @@ export default function Hero() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-dark-500">
-        <span className="text-xs font-medium uppercase tracking-wider">Scroll</span>
-        <div className="w-6 h-10 border-2 border-dark-600 rounded-full flex justify-center pt-2">
-          <div className="w-1 h-2.5 bg-dark-500 rounded-full animate-bounce" />
         </div>
       </div>
     </section>
